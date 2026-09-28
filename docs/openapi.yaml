@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: Real-Time E-Commerce API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /api/auth/register:
+    post:
+      security: []
+      summary: Register customer
+      responses:
+        "201": {description: Created}
+  /api/auth/login:
+    post:
+      security: []
+      summary: Login and receive JWT
+      responses:
+        "200": {description: OK}
+  /api/products:
+    get:
+      security: []
+      summary: List products
+      responses:
+        "200": {description: OK}
+    post:
+      security: [{bearerAuth: []}]
+      summary: Create product (ADMIN/STAFF)
+      responses:
+        "201": {description: Created}
+  /api/cart:
+    get:
+      security: [{bearerAuth: []}]
+      responses:
+        "200": {description: OK}
+  /api/cart/items:
+    post:
+      security: [{bearerAuth: []}]
+      responses:
+        "200": {description: OK}
+  /api/orders:
+    post:
+      security: [{bearerAuth: []}]
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema: {type: string}
+      responses:
+        "200": {description: Created or replayed idempotent request}
+    get:
+      security: [{bearerAuth: []}]
+      responses:
+        "200": {description: OK}
+  /api/notifications:
+    get:
+      security: [{bearerAuth: []}]
+      responses:
+        "200": {description: OK}

@@ -1,0 +1,84 @@
+spring:
+  jackson:
+    default-property-inclusion: non_null
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/ecommerce_inventory}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer: # 👈 Aligned perfectly with bootstrap-servers
+      group-id: inventory-service
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+    producer: # 👈 Aligned perfectly with bootstrap-servers
+      acks: all
+      retries: 5
+      properties:
+        enable.idempotence: true
+  security:
+    oauth2:
+      resource server: # 👈 Fixed indentation mapping for OAuth2 structure
+        jwt:
+          secret-key: ${JWT_SECRET:change-me-in-production-please-use-a-256-bit-secret}
+server:
+  shutdown: graceful
+  port: 8086
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  tracing:
+    sampling:
+      probability: ${TRACING_SAMPLE_RATE:0.1}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:change-me-in-production-please-use-a-256-bit-secret}
+
+
+#spring:
+#  jackson:
+#    default-property-inclusion: non_null
+#  mongodb:
+#    uri: ${MONGODB_URI:mongodb://localhost:27017/ecommerce_inventory}
+#  kafka:
+#    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+#        consumer:
+#          group-id: inventory-service
+#          auto-offset-reset: earliest
+#          enable-auto-commit: false
+#        producer:
+#          acks: all
+#          retries: 5
+#          properties:
+#            enable.idempotence: true
+#  security:
+#    oauth2:
+#          resourceserver:
+#            jwt:
+#              secret-key: ${JWT_SECRET:change-me-in-production-please-use-a-256-bit-secret}
+#server:
+#  shutdown: graceful
+#  port: 8086
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: health,info,metrics,prometheus
+#  endpoint:
+#    health:
+#      probes:
+#        enabled: true
+#  tracing:
+#    sampling:
+#      probability: ${TRACING_SAMPLE_RATE:0.1}
+#
+#
+#app:
+#  jwt:
+#    secret: ${JWT_SECRET:change-me-in-production-please-use-a-256-bit-secret}
+#
