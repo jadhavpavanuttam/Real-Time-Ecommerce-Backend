@@ -14,7 +14,7 @@ services:
     command: [ "redis-server","--appendonly","yes" ]
     volumes: [ redis-data:/data ]
   kafka:
-    image: bitnami/kafka:4.0
+    image: soldevelo/kafka:4.0
     restart: unless-stopped
     ports: [ "9092:9092" ]
     environment:
